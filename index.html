@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RBL Med & Wellness Spa | Premium Aesthetic Clinic Lekki</title>
+    <link href="https://googleapis.com" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #070707;
+            --surface-dark: #121212;
+            --surface-card: #1A1A1A;
+            --gold-primary: #C5A880;
+            --gold-gradient: linear-gradient(135deg, #D4AF37 0%, #A67C1E 100%);
+            --text-light: #F5F5F5;
+            --text-muted: #9A9A9A;
+            --border-gold: rgba(197, 168, 128, 0.15);
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Inter', sans-serif;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; }
+        body { background-color: var(--bg-dark); color: var(--text-light); font-family: var(--font-sans); line-height: 1.6; overflow-x: hidden; }
+        header { position: fixed; top: 0; left: 0; width: 100%; background-color: rgba(7, 7, 7, 0.95); border-bottom: 1px solid var(--border-gold); backdrop-filter: blur(10px); z-index: 1000; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-family: var(--font-serif); font-size: 24px; font-weight: 600; letter-spacing: 2px; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-decoration: none; }
+        nav a { color: var(--text-light); text-decoration: none; margin-right: 30px; font-size: 13px; letter-spacing: 1px; text-transform: uppercase; }
+        nav a:hover { color: var(--gold-primary); }
+        .nav-cta { background: var(--gold-gradient); color: #000; border: none; padding: 10px 24px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; border-radius: 2px; cursor: pointer; }
+        .hero { height: 90vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 20px; background: linear-gradient(rgba(0,0,0,0.6), rgba(7,7,7,1)), url('https://unsplash.com') no-repeat center center/cover; border-bottom: 1px solid var(--border-gold); }
+        .hero h1 { font-family: var(--font-serif); font-size: 4rem; color: var(--gold-primary); margin-bottom: 15px; }
+        .hero p { font-size: 1.1rem; color: var(--text-muted); letter-spacing: 4px; text-transform: uppercase; margin-bottom: 40px; }
+        .hero-btn { background: var(--gold-gradient); color: #000; border: none; padding: 18px 45px; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; border-radius: 4px; cursor: pointer; }
+        .menu-section { padding: 100px 10%; background-color: var(--bg-dark); }
+        .section-header { text-align: center; margin-bottom: 60px; }
+        .section-header h2 { font-family: var(--font-serif); font-size: 2.5rem; color: var(--gold-primary); }
+        .section-header p { color: var(--text-muted); letter-spacing: 2px; text-transform: uppercase; font-size: 12px; }
+        .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .menu-card { background-color: var(--surface-card); border: 1px solid var(--border-gold); border-radius: 8px; padding: 30px; display: flex; flex-direction: column; justify-content: space-between; }
+        .card-meta h3 { font-family: var(--font-serif); font-size: 20px; color: var(--text-light); margin-bottom: 10px; }
+        .card-meta p { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; }
+        .card-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px; }
+        .price { font-size: 18px; font-weight: 600; color: var(--gold-primary); }
+        .book-item-link { color: var(--text-light); text-decoration: none; font-size: 12px; text-transform: uppercase; border-bottom: 1px solid var(--gold-primary); }
+        .concierge-launcher { position: fixed; bottom: 30px; right: 30px; background: var(--gold-gradient); color: #000; border: none; border-radius: 50%; width: 60px; height: 60px; box-shadow: 0 8px 32px rgba(212, 175, 55, 0.3); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 26px; z-index: 9999; }
+        .chat-box { position: fixed; bottom: 110px; right: 30px; width: 390px; height: 550px; background-color: var(--surface-dark); border: 1px solid var(--border-gold); border-radius: 16px; display: flex; flex-direction: column; overflow: hidden; z-index: 9999; opacity: 0; transform: translateY(20px); pointer-events: none; transition: all 0.4s ease; }
+        .chat-box.active { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        .chat-header { background: linear-gradient(to right, #0a0a0a, #161616); border-bottom: 1px solid var(--border-gold); padding: 20px; display: flex; align-items: center; gap: 14px; }
+        .avatar { width: 42px; height: 42px; border-radius: 50%; border: 1px solid var(--gold-primary); background: #1c1c1c; display: flex; align-items: center; justify-content: center; font-weight: 600; color: var(--gold-primary); }
+        .header-info h3 { font-family: var(--font-serif); margin: 0; font-size: 16px; color: var(--gold-primary); }
+        .chat-messages { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 14px; }
+        .message { max-width: 82%; padding: 12px 16px; border-radius: 14px; font-size: 13px; }
+        .message.bot { background-color: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05); color: var(--text-light); align-self: flex-start; }
+        .message.user { background: var(--gold-gradient); color: #000; font-weight: 500; align-self: flex-end; }
+        .chat-footer { padding: 15px 20px; border-top: 1px solid var(--border-gold); background-color: #0a0a0a; display: flex; gap: 10px; }
+        .chat-input { flex: 1; background-color: #181818; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; padding: 12px 18px; color: var(--text-light); outline: none; font-size: 13px; }
+        .send-btn { background: transparent; border: none; color: var(--gold-primary); cursor: pointer; font-weight: 600; }
+        @media (max-width: 480px) { .chat-box { width: calc(100% - 40px); right: 20px; bottom: 90px; height: 480px; } .hero h1 { font-size: 2.5rem; } nav { display: none; } }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="#" class="logo">RBL</a>
+        <nav><a href="#menu">Treatments</a><a href="#menu" onclick="toggleChat()">AI Assistant</a></nav>
+        <button class="nav-cta" onclick="executeGlobalBooking()">Book Now</button>
+    </header>
+
+    <section class="hero">
+        <h1 id="heroTitle">RBL Med & Wellness Spa</h1>
+        <p>Relax • Rejuvenate • Reconnect</p>
+        <button class="hero-btn" onclick="executeGlobalBooking()">Schedule Treatment</button>
+    </section>
+
+    <section class="menu-section" id="menu">
+        <div class="section-header">
+            <h2>Signature Clinic Offerings</h2>
+            <p>Premium Medical Aesthetics & Holistic Day Spa Packages</p>
+        </div>
+        <div class="menu-grid" id="htmlMenuGrid"></div>
+    </section>
+
+    <button class="concierge-launcher" id="launcherBtn" onclick="toggleChat()">✦</button>
+    <div class="chat-box" id="chatBox">
+        <div class="chat-header">
+            <div class="avatar">R</div>
+            <div class="header-info">
+                <h3>RBL Digital Concierge</h3>
+                <p>Advanced Concierge AI • Active 24/7</p>
+            </div>
+        </div>
+        <div class="chat-messages" id="messageGrid">
+            <div class="message bot" id="welcomeBubble">Loading concierge...</div>
+        </div>
+        <div class="chat-footer">
+            <input type="text" class="chat-input" id="userInput" placeholder="Ask about treatments or open slots...">
+            <button class="send-btn" onclick="processUserMessage()">Send</button>
+        </div>
+    </div>
+
+    <!-- LINKING SEPARATED AUTOMATION ENGINE STRINGS -->
+    <script src="backup.js"></script>
+</body>
+</html>const SPA_DATA_SOURCE = {
+    brandName: "RBL Med & Wellness Spa",
+    location: "13 Olufemi Olatunji Street, Agungi Osapa Road, Lekki, Lagos",
+    phone: "08104359308",
+    whatsapp: "+2348184454214",
+    bookingUrl: "https://fresha.com",
+    hours: "Tue-Sat: 10 AM - 7 PM, Sun: 1 PM - 7 PM (Closed Mondays)",
+    
+    menu: [
+        { name: "Advanced HydraFacial", price: "₦55,000", desc: "Medical-grade skin resurfacing system cleansing pores, extracting oil, and hydrating deep skin tissue layers." },
+        { name: "Laser Hair Removal Session", price: "Consultation Required", desc: "Permanent aesthetic laser target reduction treatment for smooth skin optimization." },
+        { name: "IV Vitamin Infusion Therapy", price: "₦45,000", desc: "Direct bloodstream cellular replenishment bag optimizing hydration, system immunity, and instant energetic radiance." },
+        { name: "RBL Signature Spa Pamper Combo", price: "₦33,000", desc: "Entry combination package merging full-body structural exfoliation scrubs with introductory body therapies." },
+        { name: "Deep Tissue Muscle Therapy", price: "₦35,000", desc: "Intense structural pressure manipulation targeting chronic muscle tight spots and alignment tension fields." },
+        { name: "VVIP Luxury Birthday Package", price: "₦120,000", desc: "Elite private group package bundling luxury sauna access, custom treatments, couples-ready Jacuzzi slots, and treats." }
+    ]
+};
+
+// Initialise layout components using pre-loaded parameters
+document.getElementById('heroTitle').innerText = SPA_DATA_SOURCE.brandName;
+document.getElementById('welcomeBubble').innerText = `Welcome to ${SPA_DATA_SOURCE.brandName}, Lekki. ✨ How can I help you tonight? I can check pricing, operational details, or guide your booking slots.`;
+
+const menuContainer = document.getElementById('htmlMenuGrid');
+SPA_DATA_SOURCE.menu.forEach(item => {
+    menuContainer.innerHTML += `
+        <div class="menu-card">
+            <div class="card-meta"><h3>${item.name}</h3><p>${item.desc}</p></div>
+            <div class="card-footer"><span class="price">${item.price}</span><a href="#" class="book-item-link" onclick="executeGlobalBooking(event)">Reserve Slot</a></div>
+        </div>`;
+});
+
+function toggleChat() {
+    const box = document.getElementById('chatBox');
+    const btn = document.getElementById('launcherBtn');
+    box.classList.toggle('active');
+    btn.innerHTML = box.classList.contains('active') ? '✕' : '✦';
+}
+
+function executeGlobalBooking(e) {
+    if(e) e.preventDefault();
+    window.open(SPA_DATA_SOURCE.bookingUrl, '_blank');
+}
+
+async function processUserMessage() {
+    const input = document.getElementById('userInput');
+    const query = input.value.trim();
+    if(!query) return;
+
+    appendMessageBubble(query, 'user');
+    input.value = '';
+    const loadingId = appendMessageBubble('Thinking...', 'bot');
+
+    try {
+        const apiResponse = await fetch('http://127.0.0', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: query, brandContext: SPA_DATA_SOURCE })
+        });
+        const data = await apiResponse.json();
+        document.getElementById(loadingId).innerText = data.reply;
+    } catch (error) {
+        // AUTOMATIC CLIENT-SIDE FALLBACK SYSTEM (Triggers smoothly if the server line hits a connection gap)
+        setTimeout(() => {
+            let fallbackReply = `To view real-time open calendar grids and secure your treatment opening instantly on your smartphone, click directly here: ${SPA_DATA_SOURCE.bookingUrl}`;
+            const lowerQuery = query.toLowerCase();
+            if(lowerQuery.includes('price') || lowerQuery.includes('how much') || lowerQuery.includes('cost')) {
+                fallbackReply = `Our aesthetic menu packages scale from ₦33,000 for spa treatments, up to our deep medical HydraFacials at ₦55,000 and luxury private group packages at ₦120,000. View details here: ${SPA_DATA_SOURCE.bookingUrl}`;
+            } else if(lowerQuery.includes('monday') || lowerQuery.includes('hour') || lowerQuery.includes('open')) {
+                fallbackReply = `Our doors are open Tue-Sat (10 AM - 7 PM) and Sun (1 PM - 7 PM). Closed Mondays. Lock in slots online here: ${SPA_DATA_SOURCE.bookingUrl}`;
+            } else if(lowerQuery.includes('where') || lowerQuery.includes('location') || lowerQuery.includes('address')) {
+                fallbackReply = `Our luxury clinic is located at ${SPA_DATA_SOURCE.location}. We have secure private parking on site.`;
+            }
+            document.getElementById(loadingId).innerText = fallbackReply;
+        }, 600);
+    }
+}
+
+function appendMessageBubble(text, sender) {
+    const id = 'msg-' + Date.now();
+    const msgDiv = document.createElement('div');
+    msgDiv.className = `message ${sender}`;
+    msgDiv.id = id;
+    msgDiv.innerText = text;
+    const grid = document.getElementById('messageGrid');
+    grid.appendChild(msgDiv);
+    grid.scrollTop = grid.scrollHeight;
+    return id;
+}
+
